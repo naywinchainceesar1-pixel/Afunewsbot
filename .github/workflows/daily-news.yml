@@ -1,20 +1,19 @@
-name: Daily AI News to Telegram
-on:
-  schedule:
-    - cron: '0 2 * * *' # မြန်မာစံတော်ချိန် မနက် ၈:၃၀ တိုင်း အလိုအလျောက် ပို့မည်
-  workflow_dispatch: # ကိုယ်တိုင် manual နှိပ်ပြီး စမ်းသပ်ရန်
+import os
+import requests
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-      - name: Install dependencies
-        run: pip install requests
-      - name: Run script
-        run: python ai_news_to_telegram_free.py
+def send_news():
+    # GitHub Secrets ကနေ အချက်အလက်ယူတာပါ
+    token = os.getenv('TELEGRAM_BOT_TOKEN')
+    chat_id = os.getenv('TELEGRAM_CHAT_ID')
+    
+    # စာသား (မြန်မာလို)
+    message = "🇲🇲 မင်္ဂလာပါ! မြန်မာစံတော်ချိန် မနက် ၈:၃၀ တိုင်း သတင်းပို့ပေးမယ့် စနစ် အဆင်သင့်ဖြစ်ပါပြီ။"
+    
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    payload = {"chat_id": chat_id, "text": message}
+    
+    response = requests.post(url, data=payload)
+    print(response.json()) # ဘာမှားလဲဆိုတာ သိရအောင် log ထုတ်ခိုင်းတာပါ
+
+if __name__ == "__main__":
+    send_news()
