@@ -2,8 +2,8 @@ name: Daily News Bot
 
 on:
   schedule:
-    - cron: '30 2 * * *' # နေ့စဉ် မြန်မာစံတော်ချိန် မနက် ၉ နာရီခွဲမှာ အလိုအလျောက် ပို့ပေးပါမယ်
-  workflow_dispatch:      # ကိုယ်တိုင် manually run စမ်းကြည့်လို့ရအောင်ပါ
+    - cron: '30 2 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
