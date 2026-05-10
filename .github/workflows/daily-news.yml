@@ -1,11 +1,27 @@
-      - name: Run Python code
+name: Daily News Bot
+
+on:
+  schedule:
+    - cron: '30 2 * * *' # မြန်မာစံတော်ချိန် မနက် ၉:၀၀ နာရီမှာ အလိုအလျောက် ပို့ပေးမှာပါ
+  workflow_dispatch:      # ကိုယ်တိုင် manually run ချင်ရင်လည်း ရအောင်လို့ပါ
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Telegram Script
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          import os
-          import requests
-          # ဒီနေရာမှာ space တွေ အတိအကျမှန်ဖို့ လိုပါတယ်...
-          def send_news():
-              # ... ကျန်တဲ့ code များ ...
-          send_news()
+        run: python ai_news_to_telegram_free.py
